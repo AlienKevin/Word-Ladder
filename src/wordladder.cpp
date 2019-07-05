@@ -7,16 +7,26 @@
 using namespace std;
 
 void printIntroduction();
-void promptUser(Lexicon& dict);
+void promptUser(Lexicon& dict, string& word1, string& word2);
 void promptWords(const Lexicon& dict, string& word1, string& word2);
 void loadDictionary(ifstream& dictFile, Lexicon& dict);
+void formLadder(string& word1, string& word2);
 
 int main() {
     printIntroduction();
     Lexicon dict;
-    promptUser(dict);
+    string word1;
+    string word2;
+
+    promptUser(dict, word1, word2);
+
+    formLadder(word1, word2);
+
     cout << "Have a nice day." << endl;
     return 0;
+}
+
+void formLadder(string& word1, string& word2) {
 }
 
 void printIntroduction() {
@@ -25,12 +35,10 @@ void printIntroduction() {
     cout << "first into the second by modifying one letter at a time.\n" << endl;
 }
 
-void promptUser(Lexicon& dict) {
+void promptUser(Lexicon& dict, string& word1, string& word2) {
     ifstream dictFile;
     promptUserForFile(dictFile, "Dictionary file name: ");
     loadDictionary(dictFile, dict);
-    string word1;
-    string word2;
     promptWords(dict, word1, word2);
 }
 
