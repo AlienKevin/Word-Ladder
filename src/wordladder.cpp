@@ -37,15 +37,6 @@ void runGame() {
 }
 
 void formLadder(string& word1, string& word2, const Lexicon& dict) {
-//    create a queue of stacks, initially containing only a single stack storing {w1}.
-//    repeat until queue is empty or w2 is found:
-//        dequeue a stack s.
-//        for each valid unused English word w
-//                that is a "neighbor" (differs by 1 letter)
-//                of the word on top of s:
-//            create a new stack s2 whose contents are the same as s,
-//                    but with w added on top,
-//            and add s2 to the queue.
     Queue<Stack<string> > queue;
     Stack<string> firstStack;
     firstStack.push(word1);
@@ -100,9 +91,6 @@ bool findNeighboringWords(string word, string targetWord, const Lexicon& dict, c
 }
 
 void copyStack(Stack<string> stack, Stack<string>& copy) {
-//    while (!stack.isEmpty()) {
-//        copy.push(stack.pop());
-//    }
     copy = stack;
 }
 
