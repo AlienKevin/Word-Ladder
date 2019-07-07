@@ -11,12 +11,12 @@ using namespace std;
 
 void printIntroduction();
 void runGame();
-void promptUser(Lexicon& dict, string& word1, string& word2);
+void promptUser(Lexicon& dict, string word1, string word2);
 void promptForDictionary(Lexicon& dict);
 void promptWords(const Lexicon& dict, string& word1, string& word2);
 void loadDictionary(ifstream& dictFile, Lexicon& dict);
-void formLadder(string& word1, string& word2, const Lexicon& dict);
-void printWordLadder(Queue<Stack<string> > queue, string& word1, string& word2);
+void formLadder(string word1, string word2, const Lexicon& dict);
+void printWordLadder(Queue<Stack<string> > queue, string word1, string word2);
 bool findNeighboringWords(string word, string targetWord, const Lexicon& dict, const Stack<string>& first, Set<string>& appearedWords, Queue<Stack<string> >& queue);
 void copyStack(Stack<string> stack, Stack<string>& copy);
 
@@ -36,7 +36,7 @@ void runGame() {
     promptWords(dict, word1, word2);
 }
 
-void formLadder(string& word1, string& word2, const Lexicon& dict) {
+void formLadder(string word1, string word2, const Lexicon& dict) {
     Queue<Stack<string> > queue;
     Stack<string> firstStack;
     firstStack.push(word1);
@@ -53,7 +53,7 @@ void formLadder(string& word1, string& word2, const Lexicon& dict) {
     printWordLadder(queue, word1, word2);
 }
 
-void printWordLadder(Queue<Stack<string> > queue, string& word1, string& word2) {
+void printWordLadder(Queue<Stack<string> > queue, string word1, string word2) {
     Stack<string> wordLadder;
     if (queue.isEmpty()) { // no word ladder found
         cout << "No word ladder found from " << word2 << " back to " << word1 << "." << endl;
