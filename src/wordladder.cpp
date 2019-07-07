@@ -1,3 +1,8 @@
+/**
+ * The Word Ladder game written in C++ as an assignment for CS106B at Stanford Summer Session.
+ * Author: Kevin Li
+ * Description:  This program converts one English word to another by modifying one letter at a time.
+ */
 #include <iostream>
 #include "console.h"
 #include "filelib.h"
@@ -27,6 +32,9 @@ int main() {
     return 0;
 }
 
+/**
+ * Run the game
+ */
 void runGame() {
     Lexicon dict;
     promptForDictionary(dict);
@@ -39,6 +47,12 @@ void runGame() {
     }
 }
 
+/**
+ * @brief Form a word ladder from word2 back to word1
+ * @param word1 the first word
+ * @param word2 the second word
+ * @param dict the dictionary which contains all words to search for
+ */
 void formLadder(string word1, string word2, const Lexicon& dict) {
     Queue<Stack<string> > queue;
     Stack<string> firstStack;
@@ -56,6 +70,12 @@ void formLadder(string word1, string word2, const Lexicon& dict) {
     printWordLadder(queue, word1, word2);
 }
 
+/**
+ * @brief Print the word ladder
+ * @param queue the queue containing all Breadth-first search histories
+ * @param word1 the first word
+ * @param word2 the second word
+ */
 void printWordLadder(Queue<Stack<string> > queue, string word1, string word2) {
     Stack<string> wordLadder;
     if (queue.isEmpty()) { // no word ladder found
@@ -73,6 +93,20 @@ void printWordLadder(Queue<Stack<string> > queue, string word1, string word2) {
     }
 }
 
+/**
+ * @brief Find all neighboring words of a word and search until the target word is found.
+ *
+ * Neighboring words are all words which have the same length and
+ * are only one character different from the original word.
+ *
+ * @param word
+ * @param targetWord
+ * @param dict
+ * @param first
+ * @param appearedWords
+ * @param queue
+ * @return true if targetWord is found, false otherwise.
+ */
 bool findNeighboringWords(string word, string targetWord, const Lexicon& dict, const Stack<string>& first, Set<string>& appearedWords, Queue<Stack<string> >& queue) {
     for (int i = 0; i < word.length(); i++) {
         char currentChar = word[i];
@@ -92,18 +126,32 @@ bool findNeighboringWords(string word, string targetWord, const Lexicon& dict, c
     return false;
 }
 
+/**
+ * @brief Print introduction texts for the game.
+ */
 void printIntroduction() {
     cout << "Welcome to CS 106B/X Word Ladder!" << endl;
     cout << "Please give me two English words, and I will convert the" << endl;
     cout << "first into the second by modifying one letter at a time.\n" << endl;
 }
 
+/**
+ * @brief Prompt user for name for dictionary file.
+ * @param dict Lexicon to store the dictionary
+ */
 void promptForDictionary(Lexicon& dict) {
     ifstream dictFile;
     promptUserForFile(dictFile, "Dictionary file name: ");
     dict.addWordsFromFile(dictFile);
 }
 
+/**
+ * @brief Prompt user for two words to form a word ladder
+ * @param dict the dictionary which contains all words to search for
+ * @param word1 the first word
+ * @param word2 the second word
+ * @return
+ */
 bool promptWords(const Lexicon& dict, string& word1, string& word2) {
     cout << endl;
     word1 = toLowerCase(getLine("Word 1 (or Enter to quit): "));
