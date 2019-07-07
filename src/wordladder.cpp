@@ -98,7 +98,7 @@ void printIntroduction() {
 void promptForDictionary(Lexicon& dict) {
     ifstream dictFile;
     promptUserForFile(dictFile, "Dictionary file name: ");
-    loadDictionary(dictFile, dict);
+    dict.addWordsFromFile(dictFile);
 }
 
 void promptWords(const Lexicon& dict, string& word1, string& word2) {
@@ -122,8 +122,4 @@ void promptWords(const Lexicon& dict, string& word1, string& word2) {
         formLadder(word1, word2, dict);
     }
     promptWords(dict, word1, word2);
-}
-
-void loadDictionary(ifstream& dictFile, Lexicon& dict) {
-    dict.addWordsFromFile(dictFile);
 }
