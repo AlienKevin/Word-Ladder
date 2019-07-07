@@ -13,7 +13,7 @@ void printIntroduction();
 void runGame();
 void promptUser(Lexicon& dict, string word1, string word2);
 void promptForDictionary(Lexicon& dict);
-void promptWords(const Lexicon& dict, string& word1, string& word2);
+bool promptWords(const Lexicon& dict, string& word1, string& word2);
 void loadDictionary(ifstream& dictFile, Lexicon& dict);
 void formLadder(string word1, string word2, const Lexicon& dict);
 void printWordLadder(Queue<Stack<string> > queue, string word1, string word2);
@@ -33,7 +33,10 @@ void runGame() {
 
     string word1;
     string word2;
-    promptWords(dict, word1, word2);
+    bool keepRunning = true;
+    while (keepRunning) {
+        keepRunning = promptWords(dict, word1, word2);
+    }
 }
 
 void formLadder(string word1, string word2, const Lexicon& dict) {
@@ -101,15 +104,15 @@ void promptForDictionary(Lexicon& dict) {
     dict.addWordsFromFile(dictFile);
 }
 
-void promptWords(const Lexicon& dict, string& word1, string& word2) {
+bool promptWords(const Lexicon& dict, string& word1, string& word2) {
     cout << endl;
     word1 = toLowerCase(getLine("Word 1 (or Enter to quit): "));
     if (word1 == "") { // ENTER to quit
-        return;
+        return false;
     }
     word2 = toLowerCase(getLine("Word 2 (or Enter to quit): "));
     if (word2 == "") { // ENTER to quit
-        return;
+        return false;
     }
 
     if (word1.length() != word2.length()) {
@@ -121,5 +124,5 @@ void promptWords(const Lexicon& dict, string& word1, string& word2) {
     } else {
         formLadder(word1, word2, dict);
     }
-    promptWords(dict, word1, word2);
+    return true;
 }
