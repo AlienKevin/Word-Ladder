@@ -16,7 +16,7 @@ void promptForDictionary(Lexicon& dict);
 void promptWords(const Lexicon& dict, string& word1, string& word2);
 void loadDictionary(ifstream& dictFile, Lexicon& dict);
 void formLadder(string& word1, string& word2, const Lexicon& dict);
-void printWordLadder(Queue<Stack<string> > queue);
+void printWordLadder(Queue<Stack<string> > queue, string& word1, string& word2);
 bool findNeighboringWords(string word, string targetWord, const Lexicon& dict, const Stack<string>& first, Set<string>& appearedWords, Queue<Stack<string> >& queue);
 void copyStack(Stack<string> stack, Stack<string>& copy);
 
@@ -46,7 +46,6 @@ void formLadder(string& word1, string& word2, const Lexicon& dict) {
 //            create a new stack s2 whose contents are the same as s,
 //                    but with w added on top,
 //            and add s2 to the queue.
-    cout << "A ladder from " << word2 << " back to " << word1 << ": " << endl;
     Queue<Stack<string> > queue;
     Stack<string> firstStack;
     firstStack.push(word1);
@@ -55,25 +54,29 @@ void formLadder(string& word1, string& word2, const Lexicon& dict) {
     queue.enqueue(firstStack);
 
     while (!queue.isEmpty()) {
-//        cout << queue.toString() << endl;
         Stack<string> first = queue.dequeue();
         if (findNeighboringWords(first.peek(), word2, dict, first, appearedWords, queue)) {
             break;
         }
     }
-    printWordLadder(queue);
+    printWordLadder(queue, word1, word2);
 }
 
-void printWordLadder(Queue<Stack<string> > queue) {
+void printWordLadder(Queue<Stack<string> > queue, string& word1, string& word2) {
     Stack<string> wordLadder;
-    while (!queue.isEmpty()) {
-        wordLadder = queue.dequeue();
+    if (queue.isEmpty()) { // no word ladder found
+        cout << "No word ladder found from " << word2 << " back to " << word1 << "." << endl;
+    } else {
+        while (!queue.isEmpty()) {
+            wordLadder = queue.dequeue();
+        }
+        string result = "";
+        while (!wordLadder.isEmpty()) {
+            result += wordLadder.pop() + " ";
+        }
+        cout << "A ladder from " << word2 << " back to " << word1 << ": " << endl;
+        cout << result << endl;
     }
-    string result = "";
-    while (!wordLadder.isEmpty()) {
-        result += wordLadder.pop() + " ";
-    }
-    cout << result << endl;
 }
 
 bool findNeighboringWords(string word, string targetWord, const Lexicon& dict, const Stack<string>& first, Set<string>& appearedWords, Queue<Stack<string> >& queue) {
