@@ -76,8 +76,7 @@ bool findNeighboringWords(string word, string targetWord, const Lexicon& dict, c
         for (char ch = 'a'; ch <= 'z'; ch++) {
             string newWord = word.substr(0, i) + ch + word.substr(i + 1, string::npos);
             if (ch != currentChar && dict.contains(newWord) && !appearedWords.contains(newWord)) {
-                Stack<string> copyOfFirst;
-                copyStack(first, copyOfFirst);
+                Stack<string> copyOfFirst = first;
                 copyOfFirst.push(newWord);
                 queue.enqueue(copyOfFirst);
                 appearedWords.add(newWord);
@@ -88,10 +87,6 @@ bool findNeighboringWords(string word, string targetWord, const Lexicon& dict, c
         }
     }
     return false;
-}
-
-void copyStack(Stack<string> stack, Stack<string>& copy) {
-    copy = stack;
 }
 
 void printIntroduction() {
