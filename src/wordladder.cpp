@@ -10,7 +10,9 @@
 using namespace std;
 
 void printIntroduction();
+void runGame();
 void promptUser(Lexicon& dict, string& word1, string& word2);
+void promptForDictionary(Lexicon& dict);
 void promptWords(const Lexicon& dict, string& word1, string& word2);
 void loadDictionary(ifstream& dictFile, Lexicon& dict);
 void formLadder(string& word1, string& word2, const Lexicon& dict);
@@ -20,16 +22,18 @@ void copyStack(Stack<string> stack, Stack<string>& copy);
 
 int main() {
     printIntroduction();
-    Lexicon dict;
-    string word1;
-    string word2;
-
-    promptUser(dict, word1, word2);
-
-    formLadder(word1, word2, dict);
-
+    runGame();
     cout << "Have a nice day." << endl;
     return 0;
+}
+
+void runGame() {
+    Lexicon dict;
+    promptForDictionary(dict);
+
+    string word1;
+    string word2;
+    promptWords(dict, word1, word2);
 }
 
 void formLadder(string& word1, string& word2, const Lexicon& dict) {
@@ -105,17 +109,22 @@ void printIntroduction() {
     cout << "first into the second by modifying one letter at a time.\n" << endl;
 }
 
-void promptUser(Lexicon& dict, string& word1, string& word2) {
+void promptForDictionary(Lexicon& dict) {
     ifstream dictFile;
     promptUserForFile(dictFile, "Dictionary file name: ");
     loadDictionary(dictFile, dict);
-    promptWords(dict, word1, word2);
 }
 
 void promptWords(const Lexicon& dict, string& word1, string& word2) {
     cout << endl;
     word1 = toLowerCase(getLine("Word 1 (or Enter to quit): "));
+    if (word1 == "") { // ENTER to quit
+        return;
+    }
     word2 = toLowerCase(getLine("Word 2 (or Enter to quit): "));
+    if (word2 == "") { // ENTER to quit
+        return;
+    }
 
     if (word1.length() != word2.length()) {
         cout << "The two words must be the same length." << endl;
@@ -124,7 +133,7 @@ void promptWords(const Lexicon& dict, string& word1, string& word2) {
     } else if (!dict.contains(word1) || !dict.contains(word2)) {
         cout << "The two words must be found in the dictionary." << endl;
     } else {
-        return;
+        formLadder(word1, word2, dict);
     }
     promptWords(dict, word1, word2);
 }
